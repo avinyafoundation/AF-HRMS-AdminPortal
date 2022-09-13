@@ -30,8 +30,14 @@ class AddressType {
 }
 
 Future<List<AddressType>> fetchAddressTypes() async {
-  final response =
-      await http.get(Uri.parse(AppConfig.apiUrl + '/sms/util/addresstypes'));
+  final response = await http.get(
+    Uri.parse(AppConfig.hrmApiUrl + '/sms/util/addresstypes'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'accept': 'application/json',
+      'API-Key': AppConfig.hrmApiKey,
+    },
+  );
 
   if (response.statusCode == 200) {
     var resultsJson = json.decode(response.body).cast<Map<String, dynamic>>();
@@ -45,8 +51,14 @@ Future<List<AddressType>> fetchAddressTypes() async {
 }
 
 Future<AddressType> fetchAddressType(String id) async {
-  final response = await http
-      .get(Uri.parse(AppConfig.apiUrl + '/sms/util/addresstypes/$id'));
+  final response = await http.get(
+    Uri.parse(AppConfig.hrmApiUrl + '/sms/util/addresstypes/$id'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'accept': 'application/json',
+      'API-Key': AppConfig.hrmApiKey,
+    },
+  );
 
   if (response.statusCode == 200) {
     var resultsJson = json.decode(response.body).cast<Map<String, dynamic>>();
@@ -60,9 +72,11 @@ Future<AddressType> fetchAddressType(String id) async {
 
 Future<http.Response> createAddressType(AddressType addressType) async {
   final response = await http.post(
-    Uri.parse(AppConfig.apiUrl + '/sms/util/addresstypes'),
+    Uri.parse(AppConfig.hrmApiUrl + '/sms/util/addresstypes'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
+      'accept': 'application/json',
+      'API-Key': AppConfig.hrmApiKey,
     },
     body: jsonEncode(addressType.toJson()),
   );
@@ -75,9 +89,10 @@ Future<http.Response> createAddressType(AddressType addressType) async {
 
 Future<http.Response> updateAddressType(AddressType addressType) async {
   final response = await http.put(
-    Uri.parse(AppConfig.apiUrl + '/sms/util/addresstypes'),
+    Uri.parse(AppConfig.hrmApiUrl + '/sms/util/addresstypes'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
+      'API-Key': AppConfig.hrmApiKey,
     },
     body: jsonEncode(addressType.toJson()),
   );
@@ -90,9 +105,10 @@ Future<http.Response> updateAddressType(AddressType addressType) async {
 
 Future<http.Response> deleteAddressType(String id) async {
   final http.Response response = await http.delete(
-    Uri.parse(AppConfig.apiUrl + '/sms/util/addresstypes/$id'),
+    Uri.parse(AppConfig.hrmApiUrl + '/sms/util/addresstypes/$id'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
+      'API-Key': AppConfig.hrmApiKey,
     },
   );
 

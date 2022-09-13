@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 
 class AppConfig {
-  static String apiUrl = 'http://localhost:8080';
+  static String hrmApiUrl = 'http://localhost:8080';
+  static String hrmApiKey = '';
 
   //AppConfig({required this.apiUrl});
 
@@ -20,13 +21,14 @@ class AppConfig {
 
     // decode our json
     final json = jsonDecode(contents);
-    apiUrl = json['sms_api_url'];
+    hrmApiUrl = json['hrm_api_url'];
+    hrmApiKey = json['hrm_api_key'];
 
     // convert our JSON into an instance of our AppConfig class
     return AppConfig();
   }
 
   String getApiUrl() {
-    return apiUrl;
+    return hrmApiUrl;
   }
 }

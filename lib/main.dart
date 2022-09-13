@@ -26,7 +26,7 @@ Future<void> main() async {
   runApp(const SchoolManagementSystem());
 
   await AppConfig.forEnvironment('dev');
-  log(AppConfig.apiUrl);
+  log(AppConfig.hrmApiUrl);
 }
 
 const double windowWidth = 480;
