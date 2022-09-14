@@ -3,3 +3,4 @@ export 'data/book.dart';
 export 'data/employee.dart';
 export 'data/library.dart';
 export 'data/address_type.dart';
+export 'data/job_band.dart';

@@ -7,6 +7,7 @@ import 'authors.dart';
 import 'books.dart';
 import 'employees.dart';
 import 'address_types.dart';
+import 'job_bands.dart';
 import 'scaffold.dart';
 
 /// Displays the contents of the body of [SMSScaffold]
@@ -54,6 +55,12 @@ class SMSScaffoldBody extends StatelessWidget {
           const FadeTransitionPage<void>(
             key: ValueKey('address_types'),
             child: AddressTypeScreen(),
+          )
+        else if (currentRoute.pathTemplate.startsWith('/job_bands') ||
+            currentRoute.pathTemplate == '/')
+          const FadeTransitionPage<void>(
+            key: ValueKey('job_bands'),
+            child: JobBandScreen(),
           )
 
         // Avoid building a Navigator with an empty `pages` list when the

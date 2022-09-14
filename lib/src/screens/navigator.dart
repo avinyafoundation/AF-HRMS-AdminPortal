@@ -12,6 +12,7 @@ import 'author_details.dart';
 import 'book_details.dart';
 import 'employee_details.dart';
 import 'address_type_details.dart';
+import 'job_band_details.dart';
 import 'scaffold.dart';
 
 /// Builds the top-level navigator for the app. The pages to display are based
@@ -35,6 +36,7 @@ class _SMSNavigatorState extends State<SMSNavigator> {
   final _authorDetailsKey = const ValueKey('Author details screen');
   final _employeeDetailsKey = const ValueKey('Employee details screen');
   final _addressTypeDetailsKey = const ValueKey('Adress Type details screen');
+  final _jobBandsDetailsKey = const ValueKey('Job Bands details screen');
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +69,12 @@ class _SMSNavigatorState extends State<SMSNavigator> {
           (at) => at.id.toString() == routeState.route.parameters['id']);
     }
 
+    JobBand? selectedJobBand;
+    if (pathTemplate == '/job_band/:id') {
+      selectedJobBand = hrSystemInstance.jobBands?.firstWhereOrNull(
+          (jb) => jb.id.toString() == routeState.route.parameters['id']);
+    }
+
     if (pathTemplate == '/#access_token') {
       log('Navigator $routeState.route.parameters.toString()');
       log('Navigator $routeState.route.queryParameters.toString()');
@@ -95,6 +103,11 @@ class _SMSNavigatorState extends State<SMSNavigator> {
         if (route.settings is Page &&
             (route.settings as Page).key == _addressTypeDetailsKey) {
           routeState.go('/address_types/popular');
+        }
+
+        if (route.settings is Page &&
+            (route.settings as Page).key == _jobBandsDetailsKey) {
+          routeState.go('/job_bands/popular');
         }
 
         return route.didPop(result);
@@ -148,6 +161,13 @@ class _SMSNavigatorState extends State<SMSNavigator> {
               key: _addressTypeDetailsKey,
               child: AddressTypeDetailsScreen(
                 addressType: selectedAddressType,
+              ),
+            )
+          else if (selectedJobBand != null)
+            MaterialPage<void>(
+              key: _jobBandsDetailsKey,
+              child: JobBandDetailsScreen(
+                jobBand: selectedJobBand,
               ),
             ),
         ],

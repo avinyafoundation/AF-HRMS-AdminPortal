@@ -57,9 +57,10 @@ class SMSScaffold extends StatelessWidget {
         onDestinationSelected: (idx) {
           if (idx == 0) routeState.go('/books/popular');
           if (idx == 1) routeState.go('/authors');
-          if (idx == 2) routeState.go('/settings');
-          if (idx == 3) routeState.go('/employees/popular');
-          if (idx == 4) routeState.go('/address_types/popular');
+          // if (idx == 2) routeState.go('/settings');
+          // if (idx == 3) routeState.go('/employees/popular');
+          if (idx == 2) routeState.go('/address_types/popular');
+          if (idx == 3) routeState.go('/job_bands/popular');
         },
         destinations: const [
           AdaptiveScaffoldDestination(
@@ -70,17 +71,21 @@ class SMSScaffold extends StatelessWidget {
             title: 'Authors',
             icon: Icons.person,
           ),
-          AdaptiveScaffoldDestination(
-            title: 'Settings',
-            icon: Icons.settings,
-          ),
-          AdaptiveScaffoldDestination(
-            title: 'Employees',
-            icon: Icons.people,
-          ),
+          // AdaptiveScaffoldDestination(
+          //   title: 'Settings',
+          //   icon: Icons.settings,
+          // ),
+          // AdaptiveScaffoldDestination(
+          //   title: 'Employees',
+          //   icon: Icons.people,
+          // ),
           AdaptiveScaffoldDestination(
             title: 'Address Types',
             icon: Icons.location_on,
+          ),
+          AdaptiveScaffoldDestination(
+            title: 'Job Bands',
+            icon: Icons.groups,
           ),
         ],
       ),
@@ -99,9 +104,10 @@ class SMSScaffold extends StatelessWidget {
   int _getSelectedIndex(String pathTemplate) {
     if (pathTemplate.startsWith('/books')) return 0;
     if (pathTemplate == '/authors') return 1;
-    if (pathTemplate == '/settings') return 2;
-    if (pathTemplate == '/employees') return 3;
-    if (pathTemplate == '/address_types') return 4;
+    // if (pathTemplate == '/settings') return 2;
+    // if (pathTemplate == '/employees') return 3;
+    if (pathTemplate == '/address_types') return 2;
+    if (pathTemplate == '/job_bands') return 3;
     return 0;
   }
 }
