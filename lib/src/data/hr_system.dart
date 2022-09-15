@@ -28,6 +28,8 @@ class HRSystem {
   List<Employee>? allEmployees = [];
   List<AddressType>? addressTypes = [];
   List<Organization>? organizations = [];
+  List<Branch>? branches = [];
+  List<Office>? offices = [];
   List<JobBand>? jobBands = [];
 
   // void addEmployee(Employee employee) {
@@ -44,6 +46,14 @@ class HRSystem {
 
   void setOrganizations(List<Organization>? organizations) {
     this.organizations = organizations;
+  }
+
+  void setBranches(List<Branch>? branches) {
+    this.branches = branches;
+  }
+
+  void setOffices(List<Office>? offices) {
+    this.offices = offices;
   }
 
   void setJobBands(List<JobBand>? jobBands) {

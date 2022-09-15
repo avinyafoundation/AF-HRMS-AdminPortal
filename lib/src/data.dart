@@ -5,3 +5,5 @@ export 'data/hr_system.dart';
 export 'data/address_type.dart';
 export 'data/job_band.dart';
 export 'data/organization.dart';
+export 'data/branch.dart';
+export 'data/office.dart';

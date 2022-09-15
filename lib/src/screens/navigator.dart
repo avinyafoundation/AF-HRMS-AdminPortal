@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:ShoolManagementSystem/src/screens/branch_details.dart';
+import 'package:ShoolManagementSystem/src/screens/office_details.dart';
 import 'package:ShoolManagementSystem/src/screens/organization_details.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +39,9 @@ class _SMSNavigatorState extends State<SMSNavigator> {
   final _authorDetailsKey = const ValueKey('Author details screen');
   final _employeeDetailsKey = const ValueKey('Employee details screen');
   final _addressTypeDetailsKey = const ValueKey('Adress Type details screen');
-  final _organizationDetailsKey = const ValueKey('Job Bands details screen');
+  final _organizationDetailsKey = const ValueKey('Organization details screen');
+  final _branchDetailsKey = const ValueKey('Branch details screen');
+  final _officeDetailsKey = const ValueKey('Offices details screen');
   final _jobBandsDetailsKey = const ValueKey('Job Bands details screen');
 
   @override
@@ -75,6 +79,18 @@ class _SMSNavigatorState extends State<SMSNavigator> {
       selectedOrganization = hrSystemInstance.organizations?.firstWhereOrNull(
           (organization) =>
               organization.id.toString() == routeState.route.parameters['id']);
+    }
+
+    Office? selectedOffice;
+    if (pathTemplate == '/office/:id') {
+      selectedOffice = hrSystemInstance.offices?.firstWhereOrNull((office) =>
+          office.id.toString() == routeState.route.parameters['id']);
+    }
+
+    Branch? selectedBranch;
+    if (pathTemplate == '/branch/:id') {
+      selectedBranch = hrSystemInstance.branches?.firstWhereOrNull((branch) =>
+          branch.id.toString() == routeState.route.parameters['id']);
     }
 
     JobBand? selectedJobBand;
@@ -116,6 +132,16 @@ class _SMSNavigatorState extends State<SMSNavigator> {
         if (route.settings is Page &&
             (route.settings as Page).key == _organizationDetailsKey) {
           routeState.go('/organizations/popular');
+        }
+
+        if (route.settings is Page &&
+            (route.settings as Page).key == _branchDetailsKey) {
+          routeState.go('/branches/popular');
+        }
+
+        if (route.settings is Page &&
+            (route.settings as Page).key == _officeDetailsKey) {
+          routeState.go('/offices/popular');
         }
 
         if (route.settings is Page &&
@@ -181,6 +207,20 @@ class _SMSNavigatorState extends State<SMSNavigator> {
               key: _organizationDetailsKey,
               child: OrganizationDetailsScreen(
                 organization: selectedOrganization,
+              ),
+            )
+          else if (selectedBranch != null)
+            MaterialPage<void>(
+              key: _branchDetailsKey,
+              child: BranchDetailsScreen(
+                branch: selectedBranch,
+              ),
+            )
+          else if (selectedOffice != null)
+            MaterialPage<void>(
+              key: _officeDetailsKey,
+              child: OfficeDetailsScreen(
+                office: selectedOffice,
               ),
             )
           else if (selectedJobBand != null)

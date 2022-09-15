@@ -1,3 +1,5 @@
+import 'package:ShoolManagementSystem/src/screens/branchs.dart';
+import 'package:ShoolManagementSystem/src/screens/offices.dart';
 import 'package:ShoolManagementSystem/src/screens/organizations.dart';
 import 'package:flutter/material.dart';
 
@@ -62,6 +64,18 @@ class SMSScaffoldBody extends StatelessWidget {
           const FadeTransitionPage<void>(
             key: ValueKey('organizations'),
             child: OrganizationScreen(),
+          )
+        else if (currentRoute.pathTemplate.startsWith('/branches') ||
+            currentRoute.pathTemplate == '/')
+          const FadeTransitionPage<void>(
+            key: ValueKey('branches'),
+            child: BranchScreen(),
+          )
+        else if (currentRoute.pathTemplate.startsWith('/offices') ||
+            currentRoute.pathTemplate == '/')
+          const FadeTransitionPage<void>(
+            key: ValueKey('offices'),
+            child: OfficeScreen(),
           )
         else if (currentRoute.pathTemplate.startsWith('/job_bands') ||
             currentRoute.pathTemplate == '/')
