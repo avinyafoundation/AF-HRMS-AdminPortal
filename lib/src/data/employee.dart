@@ -4,7 +4,7 @@ import 'dart:convert';
 import '../config/app_config.dart';
 
 class Employee {
-  final int employee_id;
+  final int id;
   final String first_name;
   final String last_name;
   final String email;
@@ -14,7 +14,7 @@ class Employee {
   final String job_title;
 
   const Employee({
-    required this.employee_id,
+    required this.id,
     required this.first_name,
     required this.last_name,
     required this.email,
@@ -26,7 +26,7 @@ class Employee {
 
   factory Employee.fromJson(Map<String, dynamic> json) {
     return Employee(
-      employee_id: json['employee_id'],
+      id: json['employee_id'],
       first_name: json['first_name'],
       last_name: json['last_name'],
       email: json['email'],

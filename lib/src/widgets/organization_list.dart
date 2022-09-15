@@ -1,0 +1,386 @@
+import 'package:flutter/material.dart';
+
+import '../data.dart';
+
+class OrganizationList extends StatefulWidget {
+  const OrganizationList({super.key, this.onTap});
+  final ValueChanged<Organization>? onTap;
+
+  @override
+  // ignore: no_logic_in_create_state
+  OrganizationListState createState() => OrganizationListState(onTap);
+}
+
+class OrganizationListState extends State<OrganizationList> {
+  late Future<List<Organization>> futureOrganizations;
+  final ValueChanged<Organization>? onTap;
+
+  OrganizationListState(this.onTap);
+
+  @override
+  void initState() {
+    super.initState();
+    futureOrganizations = fetchOrganizations();
+  }
+
+  Future<List<Organization>> refreshOrganizationState() async {
+    futureOrganizations = fetchOrganizations();
+    return futureOrganizations;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Organization>>(
+      future: refreshOrganizationState(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          hrSystemInstance.setOrganizations(snapshot.data);
+          return ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) => ListTile(
+              title: Text(
+                snapshot.data![index].name!,
+              ),
+              subtitle: Text( ' '
+                    + snapshot.data![index].name! + ' '
+                    + snapshot.data![index].description! + ' '
+                    + snapshot.data![index].phone_number1! + ' '
+                    + snapshot.data![index].phone_number2! + ' '
+,
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                      onPressed: () async {
+                        Navigator.of(context).push<void>(
+                          MaterialPageRoute<void>(
+                            builder: (context) => EditOrganizationPage(organization: snapshot.data![index]),
+                          ),
+                        )
+                        .then((value) => setState(() {}));
+                      },
+                      icon: const Icon(Icons.edit)),
+                  IconButton(
+                      onPressed: () async {
+                        await _deleteOrganization(snapshot.data![index]);
+                        setState(() {});
+                      },
+                      icon: const Icon(Icons.delete)),
+                ],
+              ),
+              onTap: onTap != null ? () => onTap!(snapshot.data![index]) : null,
+            ),
+          );
+        } else if (snapshot.hasError) {
+          return Text('${snapshot.error}');
+        }
+
+        // By default, show a loading spinner.
+        return const CircularProgressIndicator();
+      },
+    );
+  }
+
+  Future<void> _deleteOrganization(Organization organization) async {
+    try {
+      await deleteOrganization(organization.id!.toString());
+    } on Exception {
+      await showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          content: const Text('Failed to delete the Organization'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            )
+          ],
+        ),
+      );
+    }
+  }
+}
+
+class AddOrganizationPage extends StatefulWidget {
+  static const String route = '/organization/add';
+  const AddOrganizationPage({super.key});
+  @override
+  _AddOrganizationPageState createState() => _AddOrganizationPageState();
+}
+
+class _AddOrganizationPageState extends State<AddOrganizationPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+      late TextEditingController _name_Controller;
+      late FocusNode _name_FocusNode;
+      late TextEditingController _description_Controller;
+      late FocusNode _description_FocusNode;
+      late TextEditingController _phone_number1_Controller;
+      late FocusNode _phone_number1_FocusNode;
+      late TextEditingController _phone_number2_Controller;
+      late FocusNode _phone_number2_FocusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _name_Controller = TextEditingController();
+    _name_FocusNode = FocusNode();
+    _description_Controller = TextEditingController();
+    _description_FocusNode = FocusNode();
+    _phone_number1_Controller = TextEditingController();
+    _phone_number1_FocusNode = FocusNode();
+    _phone_number2_Controller = TextEditingController();
+    _phone_number2_FocusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _name_Controller.dispose();
+    _name_FocusNode.dispose();
+    _description_Controller.dispose();
+    _description_FocusNode.dispose();
+    _phone_number1_Controller.dispose();
+    _phone_number1_FocusNode.dispose();
+    _phone_number2_Controller.dispose();
+    _phone_number2_FocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Organization'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Form(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: Column(
+            children: <Widget>[
+              const Text(
+                  'Fill in the details of the Organization you want to add'),
+              TextFormField(
+                controller: _name_Controller,
+                decoration: const InputDecoration(labelText: 'name'),
+                onFieldSubmitted: (_) {
+                  _name_FocusNode.requestFocus();
+                },
+                validator: _mandatoryValidator,
+              ),
+              TextFormField(
+                controller: _description_Controller,
+                decoration: const InputDecoration(labelText: 'description'),
+                onFieldSubmitted: (_) {
+                  _description_FocusNode.requestFocus();
+                },
+                validator: _mandatoryValidator,
+              ),
+              TextFormField(
+                controller: _phone_number1_Controller,
+                decoration: const InputDecoration(labelText: 'phone_number1'),
+                onFieldSubmitted: (_) {
+                  _phone_number1_FocusNode.requestFocus();
+                },
+                validator: _mandatoryValidator,
+              ),
+              TextFormField(
+                controller: _phone_number2_Controller,
+                decoration: const InputDecoration(labelText: 'phone_number2'),
+                onFieldSubmitted: (_) {
+                  _phone_number2_FocusNode.requestFocus();
+                },
+                validator: _mandatoryValidator,
+              ),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await _addOrganization(context);
+        },
+        child: const Icon(Icons.save),
+      ),
+    );
+  }
+
+  String? _mandatoryValidator(String? text) {
+    return (text!.isEmpty) ? 'Required' : null;
+  }
+
+  Future<void> _addOrganization(BuildContext context) async {
+    try {
+      if (_formKey.currentState!.validate()) {
+        final Organization organization = Organization(
+          name: _name_Controller.text,
+          description: _description_Controller.text,
+          phone_number1: _phone_number1_Controller.text,
+          phone_number2: _phone_number2_Controller.text,
+        );
+        await createOrganization(organization);
+        Navigator.of(context).pop(true);
+      }
+    } on Exception {
+      await showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          content: const Text('Failed to add Organization'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            )
+          ],
+        ),
+      );
+    }
+  }
+}
+
+class EditOrganizationPage extends StatefulWidget {
+  static const String route = 'organization/edit';
+  final Organization organization;
+  const EditOrganizationPage({super.key, 
+    required this.organization});
+  @override
+  _EditOrganizationPageState createState() => _EditOrganizationPageState();
+}
+
+class _EditOrganizationPageState extends State<EditOrganizationPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    late TextEditingController _name_Controller;
+    late FocusNode _name_FocusNode;
+    late TextEditingController _description_Controller;
+    late FocusNode _description_FocusNode;
+    late TextEditingController _phone_number1_Controller;
+    late FocusNode _phone_number1_FocusNode;
+    late TextEditingController _phone_number2_Controller;
+    late FocusNode _phone_number2_FocusNode;
+  @override
+  void initState() {
+    super.initState();
+    final Organization organization = widget.organization;
+    _name_Controller = TextEditingController(text: organization.name);
+    _name_FocusNode = FocusNode();
+    _description_Controller = TextEditingController(text: organization.description);
+    _description_FocusNode = FocusNode();
+    _phone_number1_Controller = TextEditingController(text: organization.phone_number1);
+    _phone_number1_FocusNode = FocusNode();
+    _phone_number2_Controller = TextEditingController(text: organization.phone_number2);
+    _phone_number2_FocusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _name_Controller.dispose();
+    _name_FocusNode.dispose();
+    _description_Controller.dispose();
+    _description_FocusNode.dispose();
+    _phone_number1_Controller.dispose();
+    _phone_number1_FocusNode.dispose();
+    _phone_number2_Controller.dispose();
+    _phone_number2_FocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Organization'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Form(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: Column(
+            children: <Widget>[
+              const Text('Fill in the details of the Organization you want to edit'),
+              TextFormField(
+                controller: _name_Controller,
+                decoration: const InputDecoration(labelText: 'name'),
+                onFieldSubmitted: (_) {
+                  _name_FocusNode.requestFocus();
+                },
+                validator: _mandatoryValidator,
+              ),
+              TextFormField(
+                controller: _description_Controller,
+                decoration: const InputDecoration(labelText: 'description'),
+                onFieldSubmitted: (_) {
+                  _description_FocusNode.requestFocus();
+                },
+                validator: _mandatoryValidator,
+              ),
+              TextFormField(
+                controller: _phone_number1_Controller,
+                decoration: const InputDecoration(labelText: 'phone_number1'),
+                onFieldSubmitted: (_) {
+                  _phone_number1_FocusNode.requestFocus();
+                },
+                validator: _mandatoryValidator,
+              ),
+              TextFormField(
+                controller: _phone_number2_Controller,
+                decoration: const InputDecoration(labelText: 'phone_number2'),
+                onFieldSubmitted: (_) {
+                  _phone_number2_FocusNode.requestFocus();
+                },
+                validator: _mandatoryValidator,
+              ),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+                await _editOrganization(context);
+              },
+        child: const Icon(Icons.save),
+      ),
+    );
+  }
+
+  String? _mandatoryValidator(String? text) {
+    return (text!.isEmpty) ? 'Required' : null;
+  }
+
+  Future<void> _editOrganization(BuildContext context) async {
+    try {
+      if (_formKey.currentState!.validate()) {
+        final Organization organization = Organization(
+            id: widget.organization.id,
+            name: _name_Controller.text,
+            description: _description_Controller.text,
+            phone_number1: _phone_number1_Controller.text,
+            phone_number2: _phone_number2_Controller.text,
+);
+        await updateOrganization(organization);
+        Navigator.of(context).pop(true);
+      }
+    } on Exception {
+      await showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          content: const Text('Failed to edit the Organization'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            )
+          ],
+        ),
+      );
+    }
+  }
+}

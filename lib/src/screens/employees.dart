@@ -85,7 +85,7 @@ class _EmployeesScreenState extends State<EmployeesScreen>
   RouteState get _routeState => RouteStateScope.of(context);
 
   void _handleEmployeeTapped(Employee employee) {
-    _routeState.go('/employee/${employee.employee_id}');
+    _routeState.go('/employee/${employee.id}');
   }
 
   void _handleTabIndexChanged() {

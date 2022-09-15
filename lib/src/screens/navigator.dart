@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ShoolManagementSystem/src/screens/organization_details.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
@@ -36,6 +37,7 @@ class _SMSNavigatorState extends State<SMSNavigator> {
   final _authorDetailsKey = const ValueKey('Author details screen');
   final _employeeDetailsKey = const ValueKey('Employee details screen');
   final _addressTypeDetailsKey = const ValueKey('Adress Type details screen');
+  final _organizationDetailsKey = const ValueKey('Job Bands details screen');
   final _jobBandsDetailsKey = const ValueKey('Job Bands details screen');
 
   @override
@@ -58,15 +60,21 @@ class _SMSNavigatorState extends State<SMSNavigator> {
 
     Employee? selectedEmployee;
     if (pathTemplate == '/employee/:employeeId') {
-      selectedEmployee = hrSystemInstance.allEmployees?.firstWhereOrNull((e) =>
-          e.employee_id.toString() ==
-          routeState.route.parameters['employeeId']);
+      selectedEmployee = hrSystemInstance.allEmployees?.firstWhereOrNull(
+          (e) => e.id.toString() == routeState.route.parameters['employeeId']);
     }
 
     AddressType? selectedAddressType;
     if (pathTemplate == '/address_type/:id') {
       selectedAddressType = hrSystemInstance.addressTypes?.firstWhereOrNull(
           (at) => at.id.toString() == routeState.route.parameters['id']);
+    }
+
+    Organization? selectedOrganization;
+    if (pathTemplate == '/organization/:id') {
+      selectedOrganization = hrSystemInstance.organizations?.firstWhereOrNull(
+          (organization) =>
+              organization.id.toString() == routeState.route.parameters['id']);
     }
 
     JobBand? selectedJobBand;
@@ -103,6 +111,11 @@ class _SMSNavigatorState extends State<SMSNavigator> {
         if (route.settings is Page &&
             (route.settings as Page).key == _addressTypeDetailsKey) {
           routeState.go('/address_types/popular');
+        }
+
+        if (route.settings is Page &&
+            (route.settings as Page).key == _organizationDetailsKey) {
+          routeState.go('/organizations/popular');
         }
 
         if (route.settings is Page &&
@@ -161,6 +174,13 @@ class _SMSNavigatorState extends State<SMSNavigator> {
               key: _addressTypeDetailsKey,
               child: AddressTypeDetailsScreen(
                 addressType: selectedAddressType,
+              ),
+            )
+          else if (selectedOrganization != null)
+            MaterialPage<void>(
+              key: _organizationDetailsKey,
+              child: OrganizationDetailsScreen(
+                organization: selectedOrganization,
               ),
             )
           else if (selectedJobBand != null)

@@ -60,7 +60,8 @@ class SMSScaffold extends StatelessWidget {
           // if (idx == 2) routeState.go('/settings');
           // if (idx == 3) routeState.go('/employees/popular');
           if (idx == 2) routeState.go('/address_types/popular');
-          if (idx == 3) routeState.go('/job_bands/popular');
+          if (idx == 3) routeState.go('/organizations/popular');
+          if (idx == 4) routeState.go('/job_bands/popular');
         },
         destinations: const [
           AdaptiveScaffoldDestination(
@@ -82,6 +83,10 @@ class SMSScaffold extends StatelessWidget {
           AdaptiveScaffoldDestination(
             title: 'Address Types',
             icon: Icons.location_on,
+          ),
+          AdaptiveScaffoldDestination(
+            title: 'Organizations',
+            icon: Icons.business,
           ),
           AdaptiveScaffoldDestination(
             title: 'Job Bands',
@@ -107,7 +112,8 @@ class SMSScaffold extends StatelessWidget {
     // if (pathTemplate == '/settings') return 2;
     // if (pathTemplate == '/employees') return 3;
     if (pathTemplate == '/address_types') return 2;
-    if (pathTemplate == '/job_bands') return 3;
+    if (pathTemplate == '/organizations') return 3;
+    if (pathTemplate == '/job_bands') return 4;
     return 0;
   }
 }

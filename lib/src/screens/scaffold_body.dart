@@ -1,3 +1,4 @@
+import 'package:ShoolManagementSystem/src/screens/organizations.dart';
 import 'package:flutter/material.dart';
 
 import '../routing.dart';
@@ -55,6 +56,12 @@ class SMSScaffoldBody extends StatelessWidget {
           const FadeTransitionPage<void>(
             key: ValueKey('address_types'),
             child: AddressTypeScreen(),
+          )
+        else if (currentRoute.pathTemplate.startsWith('/organizations') ||
+            currentRoute.pathTemplate == '/')
+          const FadeTransitionPage<void>(
+            key: ValueKey('organizations'),
+            child: OrganizationScreen(),
           )
         else if (currentRoute.pathTemplate.startsWith('/job_bands') ||
             currentRoute.pathTemplate == '/')

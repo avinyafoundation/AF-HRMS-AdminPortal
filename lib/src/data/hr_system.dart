@@ -27,6 +27,7 @@ class HRSystem {
   final List<Author> allAuthors = [];
   List<Employee>? allEmployees = [];
   List<AddressType>? addressTypes = [];
+  List<Organization>? organizations = [];
   List<JobBand>? jobBands = [];
 
   // void addEmployee(Employee employee) {
@@ -39,6 +40,10 @@ class HRSystem {
 
   void setAddressTypes(List<AddressType>? addressTypes) {
     this.addressTypes = addressTypes;
+  }
+
+  void setOrganizations(List<Organization>? organizations) {
+    this.organizations = organizations;
   }
 
   void setJobBands(List<JobBand>? jobBands) {
