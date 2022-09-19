@@ -17,6 +17,8 @@ class SMSScaffold extends StatelessWidget {
 
     return Scaffold(
       body: AdaptiveNavigationScaffold(
+        extendBodyBehindAppBar: true,
+        bottomNavigationOverflow: 10,
         selectedIndex: selectedIndex,
         appBar: AppBar(
           title: const Text('Avinya Foundation - HRMS - Admin Portal'),
