@@ -1,3 +1,4 @@
+import 'package:ShoolManagementSystem/src/screens/hr_plan.dart';
 import 'package:flutter/material.dart';
 
 // import '../data.dart';
@@ -71,7 +72,7 @@ class _HRMPeopleScreenState extends State<HRMPeopleScreen>
           children: [
             TeamsScreen(),
             TeamsScreen(),
-            TeamsScreen(),
+            HRPlanScreen(),
           ],
         ),
       );

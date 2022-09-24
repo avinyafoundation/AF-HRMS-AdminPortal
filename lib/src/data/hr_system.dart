@@ -64,12 +64,16 @@ final List<Job> jobs = [
       name: 'Executie Director',
       description: 'The ececutive of the foundation',
       team: teams[0],
-      hc_plan: 1),
+      hc_plan: 1,
+      employees: [Employee(employee_id: 'AF001', display_name: 'Anju Moses')]),
   Job(
       name: 'Head - Foundation Program',
       description: 'The head of the foundation program',
       team: teams[1],
-      hc_plan: 1),
+      hc_plan: 1,
+      employees: [
+        Employee(employee_id: 'AF002', display_name: 'Dinesha Senaratne')
+      ]),
   Job(
       name: 'Head - Healthcare',
       description: 'The head of the vocational healthcare program',
@@ -89,7 +93,23 @@ final List<Job> jobs = [
       name: 'CTO',
       description: 'Chienf Technology Officer',
       team: teams[2],
-      hc_plan: 1),
+      hc_plan: 1,
+      employees: [
+        Employee(employee_id: 'AF003', display_name: 'Samisa Abeysinghe')
+      ]),
+  Job(
+      name: 'Strategy and Technology Consultant',
+      description: 'Software architect working on overall SMS',
+      team: teams[2],
+      hc_plan: 1,
+      employees: [
+        Employee(employee_id: 'AF004', display_name: 'Rukmal Weerawarana')
+      ]),
+  Job(
+      name: 'Software Engineer',
+      description: 'Full stack software engineer',
+      team: teams[2],
+      hc_plan: 4),
   Job(
       name: 'Head - School Operations',
       description: 'The head of overall school operations',
@@ -139,7 +159,10 @@ final hrSystemInstance = HRSystem()
   ..addJob(job: jobs[3])
   ..addJob(job: jobs[4])
   ..addJob(job: jobs[5])
-  ..addJob(job: jobs[6]);
+  ..addJob(job: jobs[6])
+  ..addJob(job: jobs[7])
+  ..addJob(job: jobs[8])
+  ..addJob(job: jobs[9]);
 
 class HRSystem {
   final List<Book> allBooks = [];
