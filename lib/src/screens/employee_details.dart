@@ -21,29 +21,21 @@ class EmployeeDetailsScreen extends StatelessWidget {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text(employee!.first_name),
+        title: Text(employee!.first_name!),
       ),
       body: Center(
         child: Column(
           children: [
             Text(
-              employee!.first_name,
+              employee!.first_name!,
               style: Theme.of(context).textTheme.headline4,
             ),
             Text(
-              employee!.last_name,
+              employee!.last_name!,
               style: Theme.of(context).textTheme.subtitle1,
             ),
             Text(
-              employee!.email,
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
-            Text(
-              employee!.phone,
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
-            Text(
-              employee!.job_title,
+              employee!.email!,
               style: Theme.of(context).textTheme.subtitle1,
             ),
           ],

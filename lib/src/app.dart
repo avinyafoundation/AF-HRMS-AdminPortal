@@ -24,6 +24,9 @@ class _SchoolManagementSystemState extends State<SchoolManagementSystem> {
     _routeParser = TemplateRouteParser(
       allowedPaths: [
         '/signin',
+        '/hrm_people/teams',
+        '/hrm_people/recruitments',
+        '/hrm_people/plan',
         '/authors',
         '/settings',
         '/books/new',
@@ -57,6 +60,8 @@ class _SchoolManagementSystemState extends State<SchoolManagementSystem> {
         '/job_band/:id',
         '/job_band/new',
         '/job_band/edit',
+        '/teams',
+        '/interviews',
         '/#access_token',
       ],
       guard: _guard,
@@ -115,7 +120,7 @@ class _SchoolManagementSystemState extends State<SchoolManagementSystem> {
     }
     // Go to /books if the user is signed in and tries to go to /signin.
     else if (signedIn && from == signInRoute) {
-      return ParsedRoute('/books/popular', '/books/popular', {}, {});
+      return ParsedRoute('/hrm_people/teams', '/hrm_people/teams', {}, {});
     }
     return from;
   }

@@ -7,3 +7,5 @@ export 'data/job_band.dart';
 export 'data/organization.dart';
 export 'data/branch.dart';
 export 'data/office.dart';
+export 'data/team.dart';
+export 'data/job.dart';

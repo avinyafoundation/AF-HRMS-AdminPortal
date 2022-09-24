@@ -34,10 +34,10 @@ class EmployeeListState extends State<EmployeeList> {
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) => ListTile(
               title: Text(
-                snapshot.data![index].first_name,
+                snapshot.data![index].first_name!,
               ),
               subtitle: Text(
-                snapshot.data![index].last_name,
+                snapshot.data![index].last_name!,
               ),
               onTap: onTap != null ? () => onTap!(snapshot.data![index]) : null,
             ),

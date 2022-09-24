@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:ShoolManagementSystem/src/data.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -27,6 +28,8 @@ Future<void> main() async {
 
   await AppConfig.forEnvironment('dev');
   log(AppConfig.hrmApiUrl);
+
+  await hrSystemInstance.loadInitData();
 }
 
 const double windowWidth = 480;

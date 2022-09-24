@@ -43,6 +43,9 @@ class _SMSNavigatorState extends State<SMSNavigator> {
   final _branchDetailsKey = const ValueKey('Branch details screen');
   final _officeDetailsKey = const ValueKey('Offices details screen');
   final _jobBandsDetailsKey = const ValueKey('Job Bands details screen');
+  final _jobInterviewsKey = const ValueKey('Job Interviews Page');
+  // final _teamsKey = const ValueKey('Teams Page');
+  final _hrmPeopleKey = const ValueKey('HRM People Page');
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +111,7 @@ class _SMSNavigatorState extends State<SMSNavigator> {
       key: widget.navigatorKey,
       onPopPage: (route, dynamic result) {
         // When a page that is stacked on top of the scaffold is popped, display
-        // the /books or /authors tab in SMSScaffold.
+        // the /hrm_people/teams tab in SMSScaffold.
         if (route.settings is Page &&
             (route.settings as Page).key == _bookDetailsKey) {
           routeState.go('/books/popular');
@@ -149,6 +152,21 @@ class _SMSNavigatorState extends State<SMSNavigator> {
           routeState.go('/job_bands/popular');
         }
 
+        if (route.settings is Page &&
+            (route.settings as Page).key == _jobInterviewsKey) {
+          routeState.go('/interviews');
+        }
+
+        // if (route.settings is Page &&
+        //     (route.settings as Page).key == _teamsKey) {
+        //   routeState.go('/teams');
+        // }
+
+        if (route.settings is Page &&
+            (route.settings as Page).key == _hrmPeopleKey) {
+          routeState.go('/hrm_people/teams');
+        }
+
         return route.didPop(result);
       },
       pages: [
@@ -161,7 +179,7 @@ class _SMSNavigatorState extends State<SMSNavigator> {
                 var signedIn = await authState.signIn(
                     credentials.username, credentials.password);
                 if (signedIn) {
-                  await routeState.go('/books/popular');
+                  await routeState.go('/hrm_people/teams');
                 }
               },
             ),

@@ -1,4 +1,5 @@
 import 'package:ShoolManagementSystem/src/screens/branchs.dart';
+import 'package:ShoolManagementSystem/src/screens/hrm_people.dart';
 import 'package:ShoolManagementSystem/src/screens/offices.dart';
 import 'package:ShoolManagementSystem/src/screens/organizations.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,8 @@ import 'books.dart';
 import 'employees.dart';
 import 'address_types.dart';
 import 'job_bands.dart';
+import 'interviews.dart';
+import 'teams.dart';
 import 'scaffold.dart';
 
 /// Displays the contents of the body of [SMSScaffold]
@@ -47,6 +50,12 @@ class SMSScaffoldBody extends StatelessWidget {
             key: ValueKey('books'),
             child: BooksScreen(),
           )
+        else if (currentRoute.pathTemplate.startsWith('/hrm_people') ||
+            currentRoute.pathTemplate == '/')
+          const FadeTransitionPage<void>(
+            key: ValueKey('hrm_people'),
+            child: HRMPeopleScreen(),
+          )
         else if (currentRoute.pathTemplate.startsWith('/employees') ||
             currentRoute.pathTemplate == '/')
           const FadeTransitionPage<void>(
@@ -82,6 +91,18 @@ class SMSScaffoldBody extends StatelessWidget {
           const FadeTransitionPage<void>(
             key: ValueKey('job_bands'),
             child: JobBandScreen(),
+          )
+        else if (currentRoute.pathTemplate.startsWith('/interviews') ||
+            currentRoute.pathTemplate == '/')
+          const FadeTransitionPage<void>(
+            key: ValueKey('interviews'),
+            child: InterviewsScreen(),
+          )
+        else if (currentRoute.pathTemplate.startsWith('/teams') ||
+            currentRoute.pathTemplate == '/')
+          const FadeTransitionPage<void>(
+            key: ValueKey('teams'),
+            child: TeamsScreen(),
           )
 
         // Avoid building a Navigator with an empty `pages` list when the

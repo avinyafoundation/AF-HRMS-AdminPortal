@@ -6,6 +6,18 @@ import '../auth.dart';
 import 'scaffold_body.dart';
 
 class SMSScaffold extends StatelessWidget {
+  static const pageNames = [
+    '/hrm_people/teams',
+    '/interviews',
+    '/books/popular',
+    '/authors',
+    // '/address_types/popular',
+    // '/organizations/popular',
+    // '/branches/popular',
+    // '/offices/popular',
+    // '/job_bands/popular',
+  ];
+
   const SMSScaffold({
     super.key,
   });
@@ -17,7 +29,8 @@ class SMSScaffold extends StatelessWidget {
 
     return Scaffold(
       body: AdaptiveNavigationScaffold(
-        extendBodyBehindAppBar: true,
+        extendBody: true,
+        // extendBodyBehindAppBar: true,
         bottomNavigationOverflow: 10,
         selectedIndex: selectedIndex,
         appBar: AppBar(
@@ -57,17 +70,17 @@ class SMSScaffold extends StatelessWidget {
         ),
         body: const SMSScaffoldBody(),
         onDestinationSelected: (idx) {
-          if (idx == 0) routeState.go('/books/popular');
-          if (idx == 1) routeState.go('/authors');
-          // if (idx == 2) routeState.go('/settings');
-          // if (idx == 3) routeState.go('/employees/popular');
-          if (idx == 2) routeState.go('/address_types/popular');
-          if (idx == 3) routeState.go('/organizations/popular');
-          if (idx == 4) routeState.go('/branches/popular');
-          if (idx == 5) routeState.go('/offices/popular');
-          if (idx == 6) routeState.go('/job_bands/popular');
+          routeState.go(pageNames[idx]);
         },
         destinations: const [
+          AdaptiveScaffoldDestination(
+            title: 'HRM People',
+            icon: Icons.group,
+          ),
+          AdaptiveScaffoldDestination(
+            title: 'Job Interviews',
+            icon: Icons.assignment_ind,
+          ),
           AdaptiveScaffoldDestination(
             title: 'Books',
             icon: Icons.book,
@@ -84,26 +97,26 @@ class SMSScaffold extends StatelessWidget {
           //   title: 'Employees',
           //   icon: Icons.people,
           // ),
-          AdaptiveScaffoldDestination(
-            title: 'Address Types',
-            icon: Icons.location_on,
-          ),
-          AdaptiveScaffoldDestination(
-            title: 'Organizations',
-            icon: Icons.business,
-          ),
-          AdaptiveScaffoldDestination(
-            title: 'Branches',
-            icon: Icons.account_tree_outlined,
-          ),
-          AdaptiveScaffoldDestination(
-            title: 'Offices',
-            icon: Icons.account_tree,
-          ),
-          AdaptiveScaffoldDestination(
-            title: 'Job Bands',
-            icon: Icons.groups,
-          ),
+          // AdaptiveScaffoldDestination(
+          //   title: 'Address Types',
+          //   icon: Icons.location_on,
+          // ),
+          // AdaptiveScaffoldDestination(
+          //   title: 'Organizations',
+          //   icon: Icons.business,
+          // ),
+          // AdaptiveScaffoldDestination(
+          //   title: 'Branches',
+          //   icon: Icons.account_tree_outlined,
+          // ),
+          // AdaptiveScaffoldDestination(
+          //   title: 'Offices',
+          //   icon: Icons.account_tree,
+          // ),
+          // AdaptiveScaffoldDestination(
+          //   title: 'Job Bands',
+          //   icon: Icons.groups,
+          // ),
         ],
       ),
       persistentFooterButtons: [
@@ -111,7 +124,9 @@ class SMSScaffold extends StatelessWidget {
             child: Text('About'),
             onPressed: () {
               showAboutDialog(
-                  context: context, applicationName: 'AF HRMS Admin Portal');
+                  context: context,
+                  applicationName: 'AF HRMS Admin Portal',
+                  applicationVersion: '0.1.0');
             }),
         new Text("© 2022, Avinya Foundation."),
       ],
@@ -119,15 +134,10 @@ class SMSScaffold extends StatelessWidget {
   }
 
   int _getSelectedIndex(String pathTemplate) {
-    if (pathTemplate.startsWith('/books')) return 0;
-    if (pathTemplate == '/authors') return 1;
-    // if (pathTemplate == '/settings') return 2;
-    // if (pathTemplate == '/employees') return 3;
-    if (pathTemplate == '/address_types') return 2;
-    if (pathTemplate == '/organizations') return 3;
-    if (pathTemplate == '/branches') return 4;
-    if (pathTemplate == '/offices') return 5;
-    if (pathTemplate == '/job_bands') return 6;
-    return 0;
+    int index = pageNames.indexOf(pathTemplate);
+    if (index >= 0)
+      return index;
+    else
+      return 0;
   }
 }
