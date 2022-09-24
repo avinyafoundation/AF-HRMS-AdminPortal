@@ -3,9 +3,9 @@ import 'dart:convert';
 
 import '../config/app_config.dart';
 
-class Employee {
+class Advisor {
     int? id;
-    String? employee_id;
+    String? advisor_id;
     String? first_name;
     String? last_name;
     String? name_with_initials;
@@ -19,9 +19,9 @@ class Employee {
     String? cv_location;
     String? last_updated;
   
-    Employee({
+    Advisor({
         this.id,
-        this.employee_id,
+        this.advisor_id,
         this.first_name,
         this.last_name,
         this.name_with_initials,
@@ -36,10 +36,10 @@ class Employee {
         this.last_updated,
     });
 
-    factory Employee.fromJson(Map<String, dynamic> json) {
-        return Employee(
+    factory Advisor.fromJson(Map<String, dynamic> json) {
+        return Advisor(
                 id: json['id'],
-                employee_id: json['employee_id'],
+                advisor_id: json['advisor_id'],
                 first_name: json['first_name'],
                 last_name: json['last_name'],
                 name_with_initials: json['name_with_initials'],
@@ -58,7 +58,7 @@ class Employee {
     Map<String, dynamic> toJson() =>
     {
             if(id != null) 'id': id,
-           if(employee_id != null) 'employee_id': employee_id,
+           if(advisor_id != null) 'advisor_id': advisor_id,
            if(first_name != null) 'first_name': first_name,
            if(last_name != null) 'last_name': last_name,
            if(name_with_initials != null) 'name_with_initials': name_with_initials,
@@ -74,9 +74,9 @@ class Employee {
     }; 
 }
 
-Future<List<Employee>> fetchEmployees() async {
+Future<List<Advisor>> fetchAdvisors() async {
     final response =
-        await http.get(Uri.parse(AppConfig.hrmApiUrl + '/sms/hrm/employees'),
+        await http.get(Uri.parse(AppConfig.hrmApiUrl + '/sms/hrm/advisors'),
         headers: <String, String>{
          'Content-Type': 'application/json; charset=UTF-8',
           'accept': 'application/json',
@@ -85,18 +85,18 @@ Future<List<Employee>> fetchEmployees() async {
 
     if (response.statusCode == 200) {
         var resultsJson = json.decode(response.body).cast<Map<String, dynamic>>();
-        List<Employee> employees = await resultsJson
-            .map<Employee>((json) => Employee.fromJson(json))
+        List<Advisor> advisors = await resultsJson
+            .map<Advisor>((json) => Advisor.fromJson(json))
             .toList();
-        return employees;
+        return advisors;
     } else {
-        throw Exception('Failed to load Employee');
+        throw Exception('Failed to load Advisor');
     }
 }
 
-Future<Employee> fetchEmployee(String id) async {
+Future<Advisor> fetchAdvisor(String id) async {
     final response =
-        await http.get(Uri.parse(AppConfig.hrmApiUrl + '/sms/hrm/employees/$id'),
+        await http.get(Uri.parse(AppConfig.hrmApiUrl + '/sms/hrm/advisors/$id'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'accept': 'application/json',
@@ -105,49 +105,49 @@ Future<Employee> fetchEmployee(String id) async {
 
     if (response.statusCode == 200) {
         var resultsJson = json.decode(response.body).cast<Map<String, dynamic>>();
-        Employee employee = await resultsJson
-            .map<Employee>((json) => Employee.fromJson(json));
-        return employee;
+        Advisor advisor = await resultsJson
+            .map<Advisor>((json) => Advisor.fromJson(json));
+        return advisor;
     } else {
-        throw Exception('Failed to load Employee');
+        throw Exception('Failed to load Advisor');
     }
 }
 
-Future<http.Response> createEmployee(Employee employee) async {
+Future<http.Response> createAdvisor(Advisor advisor) async {
     final response = await http.post(
-        Uri.parse(AppConfig.hrmApiUrl + '/sms/hrm/employees'),
+        Uri.parse(AppConfig.hrmApiUrl + '/sms/hrm/advisors'),
         headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'API-Key': AppConfig.hrmApiKey,
         },
-        body: jsonEncode(employee.toJson()),
+        body: jsonEncode(advisor.toJson()),
         );
     if (response.statusCode == 200) {
         return response;
     } else {
-        throw Exception('Failed to create Employee.');
+        throw Exception('Failed to create Advisor.');
     }
 }
 
-Future<http.Response> updateEmployee(Employee employee) async {
+Future<http.Response> updateAdvisor(Advisor advisor) async {
     final response = await http.put(
-        Uri.parse(AppConfig.hrmApiUrl + '/sms/hrm/employees'),
+        Uri.parse(AppConfig.hrmApiUrl + '/sms/hrm/advisors'),
         headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'API-Key': AppConfig.hrmApiKey,
         },
-        body: jsonEncode(employee.toJson()),
+        body: jsonEncode(advisor.toJson()),
         );
     if (response.statusCode == 200) {
         return response;
     } else {
-        throw Exception('Failed to update Employee.');
+        throw Exception('Failed to update Advisor.');
     }
 }
 
-Future<http.Response> deleteEmployee(String id) async {
+Future<http.Response> deleteAdvisor(String id) async {
     final http.Response response = await http.delete(
-        Uri.parse(AppConfig.hrmApiUrl + '/sms/hrm/employees/$id'),
+        Uri.parse(AppConfig.hrmApiUrl + '/sms/hrm/advisors/$id'),
         headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'API-Key': AppConfig.hrmApiKey,
@@ -157,6 +157,6 @@ Future<http.Response> deleteEmployee(String id) async {
     if (response.statusCode == 200) {
         return response;
     } else {
-        throw Exception('Failed to delete Employee.');
+        throw Exception('Failed to delete Advisor.');
     }
 }

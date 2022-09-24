@@ -1,5 +1,107 @@
 import 'package:ShoolManagementSystem/src/data.dart';
 
+final List<Organization> organizations = [
+  Organization(
+      name: 'Avinya Foundation',
+      description: 'Avinya Foundation - the present organization'),
+  Organization(
+      name: 'Bandaragama Campus',
+      description: 'Avinya campus located in Bandaragama')
+];
+
+final List<Team> teams = [
+  Team(
+      name: 'Executive',
+      description: 'Team of executives who make all executive decisions',
+      organization: organizations[0]),
+  Team(
+      name: 'Education',
+      description:
+          'Team who handles and manages curriculum, educators and students',
+      organization: organizations[0]),
+  Team(
+      name: 'Technology',
+      description:
+          'Technology, R&D, Engineering and IT systems handled by this ',
+      organization: organizations[0]),
+  Team(
+      name: 'Operations',
+      description: 'All matters related to operations handled by this team',
+      organization: organizations[0]),
+  Team(
+      name: 'HR',
+      description: 'All matters related to HR handled by this team',
+      organization: organizations[0]),
+  Team(
+      name: 'Foundation Program',
+      description:
+          'Team who is responsible for all matters related to foundation program',
+      organization: organizations[1]),
+  Team(
+      name: 'Vocational IT',
+      description:
+          'Team who is responsible for all matters related to Vocational IT program',
+      organization: organizations[1]),
+  Team(
+      name: 'Vocational Health',
+      description:
+          'Team who is responsible for all matters related to Vocational Health program',
+      organization: organizations[1]),
+  Team(
+      name: 'Vocational Hospitality',
+      description:
+          'Team who is responsible for all matters related to Vocational Hospitality program',
+      organization: organizations[1]),
+  Team(
+      name: 'Operations',
+      description:
+          'Team who is responsible for all matters related to campus operations',
+      organization: organizations[1])
+];
+
+final List<Job> jobs = [
+  Job(
+      name: 'Executie Director',
+      description: 'The ececutive of the foundation',
+      team: teams[0],
+      hc_plan: 1),
+  Job(
+      name: 'Head - Foundation Program',
+      description: 'The head of the foundation program',
+      team: teams[1],
+      hc_plan: 1),
+  Job(
+      name: 'Head - Healthcare',
+      description: 'The head of the vocational healthcare program',
+      team: teams[1],
+      hc_plan: 1),
+  Job(
+      name: 'Head - Hospitality',
+      description: 'The head of the vocational hospitality program',
+      team: teams[1],
+      hc_plan: 1),
+  Job(
+      name: 'Head - IT',
+      description: 'The head of the vocational IT program',
+      team: teams[1],
+      hc_plan: 1),
+  Job(
+      name: 'CTO',
+      description: 'Chienf Technology Officer',
+      team: teams[2],
+      hc_plan: 1),
+  Job(
+      name: 'Head - School Operations',
+      description: 'The head of overall school operations',
+      team: teams[3],
+      hc_plan: 1),
+  Job(
+      name: 'Head - HR',
+      description: 'The head of overall HR operations',
+      team: teams[4],
+      hc_plan: 1),
+];
+
 final hrSystemInstance = HRSystem()
   ..addBook(
       title: 'Left Hand of Darkness',
@@ -20,7 +122,24 @@ final hrSystemInstance = HRSystem()
       title: 'The Lathe of Heaven',
       authorName: 'Ursula K. Le Guin',
       isPopular: false,
-      isNew: false);
+      isNew: false)
+  ..setOrganizations(organizations)
+  ..addTeam(team: teams[0])
+  ..addTeam(team: teams[1])
+  ..addTeam(team: teams[2])
+  ..addTeam(team: teams[3])
+  ..addTeam(team: teams[4])
+  ..addTeam(team: teams[5])
+  ..addTeam(team: teams[6])
+  ..addTeam(team: teams[7])
+  ..addTeam(team: teams[8])
+  ..addJob(job: jobs[0])
+  ..addJob(job: jobs[1])
+  ..addJob(job: jobs[2])
+  ..addJob(job: jobs[3])
+  ..addJob(job: jobs[4])
+  ..addJob(job: jobs[5])
+  ..addJob(job: jobs[6]);
 
 class HRSystem {
   final List<Book> allBooks = [];
@@ -60,6 +179,27 @@ class HRSystem {
     this.jobBands = jobBands;
   }
 
+  addOrganization({
+    required String name,
+    required String description,
+  }) {
+    var organization = Organization(
+        id: organizations!.length, name: name, description: description);
+    organizations!.add(organization);
+  }
+
+  addTeam({
+    required Team team,
+  }) {
+    team.organization!.teams!.add(team);
+  }
+
+  addJob({
+    required Job job,
+  }) {
+    job.team!.jobs!.add(job);
+  }
+
   void addBook({
     required String title,
     required String authorName,
@@ -87,4 +227,8 @@ class HRSystem {
   List<Book> get newBooks => [
         ...allBooks.where((book) => book.isNew),
       ];
+
+  loadInitData() async {
+    //this.organizations = await fetchOrganizations(); Differ this until the BFF and DS API is ready
+  }
 }
