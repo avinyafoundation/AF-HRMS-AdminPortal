@@ -66,6 +66,42 @@ class RecruitmentsScreenState extends State<RecruitmentsScreen> {
                     SizedBox(height: 10.0),
                     Container(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          DataTable(
+                            columns: [
+                              DataColumn(
+                                label: Text('Team',
+                                    style: TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.w400)),
+                              ),
+                              DataColumn(
+                                label: Text('Job',
+                                    style: TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.w400)),
+                              ),
+                              DataColumn(
+                                label: Text('Plan HC',
+                                    style: TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.w400)),
+                              ),
+                              DataColumn(
+                                label: Text('Vacant HC',
+                                    style: TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.w400)),
+                              ),
+                            ],
+                            rows: getOraganizationTeamStructure(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Column(
                         children: [
                           Column(
                               children: selectedOrganization!.teams!
@@ -179,5 +215,38 @@ class RecruitmentsScreenState extends State<RecruitmentsScreen> {
     else
       organizations!.forEach((organization) => names.add(organization.name!));
     return names;
+  }
+
+  List<DataRow> getOraganizationTeamStructure() {
+    List<DataRow> dataRows = [];
+    selectedOrganization!.teams!.forEach((team) {
+      dataRows.add(DataRow(cells: [
+        DataCell(Text(team.name!,
+            style: TextStyle(
+                fontStyle: FontStyle.italic, fontWeight: FontWeight.w800))),
+        DataCell(SizedBox.shrink()),
+        DataCell(SizedBox.shrink()),
+        DataCell(SizedBox.shrink())
+      ]));
+      team.jobs!.forEach((job) {
+        dataRows.add(DataRow(cells: [
+          DataCell(SizedBox.shrink()),
+          DataCell(Text(job.name!,
+              style: TextStyle(
+                  fontStyle: FontStyle.italic, fontWeight: FontWeight.w400))),
+          DataCell(Text(job.hc_plan.toString())),
+          DataCell(Text((job.hc_plan! - job.employees!.length).toString()))
+        ]));
+        // job.employees!.forEach((employee) {
+        //   dataRows.add(DataRow(cells: [
+        //     DataCell(SizedBox.shrink()),
+        //     DataCell(SizedBox.shrink()),
+        //     DataCell(Text(employee.display_name!)),
+        //     DataCell(Text(employee.employee_id!))
+        //   ]));
+        // });
+      });
+    });
+    return dataRows;
   }
 }
