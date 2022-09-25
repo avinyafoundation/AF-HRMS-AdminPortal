@@ -109,7 +109,11 @@ final List<Job> jobs = [
       name: 'Software Engineer',
       description: 'Full stack software engineer',
       team: teams[2],
-      hc_plan: 4),
+      hc_plan: 4,
+      employees: [
+        Employee(employee_id: 'AF005', display_name: 'Person 1'),
+        Employee(employee_id: 'AF006', display_name: 'Person 2')
+      ]),
   Job(
       name: 'Head - School Operations',
       description: 'The head of overall school operations',
