@@ -94,112 +94,15 @@ class RecruitmentsScreenState extends State<RecruitmentsScreen> {
                                         fontStyle: FontStyle.italic,
                                         fontWeight: FontWeight.w400)),
                               ),
+                              DataColumn(
+                                label: Text('Actions',
+                                    style: TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.w400)),
+                              ),
                             ],
                             rows: getOraganizationTeamStructure(),
                           ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Column(
-                        children: [
-                          Column(
-                              children: selectedOrganization!.teams!
-                                  .map((team) => Column(children: [
-                                        Row(
-                                          children: [
-                                            Text(team.name!,
-                                                style: TextStyle(
-                                                    fontStyle: FontStyle.italic,
-                                                    fontWeight:
-                                                        FontWeight.w800)),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(team.description!,
-                                                style: TextStyle(
-                                                    fontStyle:
-                                                        FontStyle.italic)),
-                                          ],
-                                        ),
-                                        Row(children: [
-                                          DataTable(
-                                              columns: [
-                                                DataColumn(
-                                                    label: SizedBox(
-                                                  width: 120,
-                                                  child: Text('Role',
-                                                      style: TextStyle(
-                                                          fontStyle:
-                                                              FontStyle.italic,
-                                                          fontWeight:
-                                                              FontWeight.w400)),
-                                                )),
-                                                DataColumn(
-                                                  label: Text('Plan HC',
-                                                      style: TextStyle(
-                                                          fontStyle:
-                                                              FontStyle.italic,
-                                                          fontWeight:
-                                                              FontWeight.w400)),
-                                                ),
-                                                DataColumn(
-                                                  label: Text('Current HC',
-                                                      style: TextStyle(
-                                                          fontStyle:
-                                                              FontStyle.italic,
-                                                          fontWeight:
-                                                              FontWeight.w400)),
-                                                ),
-                                                DataColumn(
-                                                  label: Text('Vacant HC',
-                                                      style: TextStyle(
-                                                          fontStyle:
-                                                              FontStyle.italic,
-                                                          fontWeight:
-                                                              FontWeight.w400)),
-                                                ),
-                                              ],
-                                              rows: team.jobs!
-                                                  .map((job) => DataRow(cells: [
-                                                        DataCell(SizedBox(
-                                                            width: 120,
-                                                            child: Text(
-                                                                job.name!,
-                                                                style: TextStyle(
-                                                                    fontStyle:
-                                                                        FontStyle
-                                                                            .italic)))),
-                                                        DataCell(Text(
-                                                            job.hc_plan
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                                fontStyle:
-                                                                    FontStyle
-                                                                        .italic))),
-                                                        DataCell(Text(
-                                                            job.employees!
-                                                                .length
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                                fontStyle:
-                                                                    FontStyle
-                                                                        .italic))),
-                                                        DataCell(Text(
-                                                            (job.hc_plan! -
-                                                                    job.employees!
-                                                                        .length)
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                                fontStyle:
-                                                                    FontStyle
-                                                                        .italic))),
-                                                      ]))
-                                                  .toList()),
-                                        ])
-                                      ]))
-                                  .toList())
                         ],
                       ),
                     ),
@@ -226,6 +129,7 @@ class RecruitmentsScreenState extends State<RecruitmentsScreen> {
                 fontStyle: FontStyle.italic, fontWeight: FontWeight.w800))),
         DataCell(SizedBox.shrink()),
         DataCell(SizedBox.shrink()),
+        DataCell(SizedBox.shrink()),
         DataCell(SizedBox.shrink())
       ]));
       team.jobs!.forEach((job) {
@@ -235,16 +139,21 @@ class RecruitmentsScreenState extends State<RecruitmentsScreen> {
               style: TextStyle(
                   fontStyle: FontStyle.italic, fontWeight: FontWeight.w400))),
           DataCell(Text(job.hc_plan.toString())),
-          DataCell(Text((job.hc_plan! - job.employees!.length).toString()))
+          DataCell(Text((job.hc_plan! - job.employees!.length).toString())),
+          DataCell(
+            Container(
+                child: Row(
+                    children: ((job.hc_plan! - job.employees!.length) > 0)
+                        ? [
+                            Text('Add vacancy'),
+                            IconButton(
+                              icon: new Icon(Icons.add),
+                              onPressed: () {/* Your code */},
+                            )
+                          ]
+                        : [Text('No vacancy')])),
+          )
         ]));
-        // job.employees!.forEach((employee) {
-        //   dataRows.add(DataRow(cells: [
-        //     DataCell(SizedBox.shrink()),
-        //     DataCell(SizedBox.shrink()),
-        //     DataCell(Text(employee.display_name!)),
-        //     DataCell(Text(employee.employee_id!))
-        //   ]));
-        // });
       });
     });
     return dataRows;
