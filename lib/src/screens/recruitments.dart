@@ -1,4 +1,6 @@
+import 'package:ShoolManagementSystem/src/widgets/positions_vacant_list.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../data.dart';
 // import '../routing.dart';
@@ -95,13 +97,19 @@ class RecruitmentsScreenState extends State<RecruitmentsScreen> {
                                         fontWeight: FontWeight.w400)),
                               ),
                               DataColumn(
+                                label: Text('Hiring HC',
+                                    style: TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.w400)),
+                              ),
+                              DataColumn(
                                 label: Text('Actions',
                                     style: TextStyle(
                                         fontStyle: FontStyle.italic,
                                         fontWeight: FontWeight.w400)),
                               ),
                             ],
-                            rows: getOraganizationTeamStructure(),
+                            rows: getOraganizationTeamStructure(context),
                           ),
                         ],
                       ),
@@ -120,13 +128,14 @@ class RecruitmentsScreenState extends State<RecruitmentsScreen> {
     return names;
   }
 
-  List<DataRow> getOraganizationTeamStructure() {
+  List<DataRow> getOraganizationTeamStructure(BuildContext context) {
     List<DataRow> dataRows = [];
     selectedOrganization!.teams!.forEach((team) {
       dataRows.add(DataRow(cells: [
         DataCell(Text(team.name!,
             style: TextStyle(
                 fontStyle: FontStyle.italic, fontWeight: FontWeight.w800))),
+        DataCell(SizedBox.shrink()),
         DataCell(SizedBox.shrink()),
         DataCell(SizedBox.shrink()),
         DataCell(SizedBox.shrink()),
@@ -140,15 +149,31 @@ class RecruitmentsScreenState extends State<RecruitmentsScreen> {
                   fontStyle: FontStyle.italic, fontWeight: FontWeight.w400))),
           DataCell(Text(job.hc_plan.toString())),
           DataCell(Text((job.hc_plan! - job.employees!.length).toString())),
+          DataCell(Text(getHiringCount(job.positionsVacant!).toString())),
           DataCell(
             Container(
                 child: Row(
-                    children: ((job.hc_plan! - job.employees!.length) > 0)
+                    children: ((job.hc_plan! -
+                                job.employees!.length -
+                                getHiringCount(job.positionsVacant!)) >
+                            0)
                         ? [
-                            Text('Add vacancy'),
+                            Text('Create vacancy'),
                             IconButton(
                               icon: new Icon(Icons.add),
-                              onPressed: () {/* Your code */},
+                              onPressed: () async {
+                                var positionsVacant = createVacancy(job);
+                                Navigator.of(context)
+                                    .push<void>(
+                                      MaterialPageRoute<void>(
+                                        builder: (context) =>
+                                            EditPositionsVacantPage(
+                                                positionsVacant:
+                                                    positionsVacant),
+                                      ),
+                                    )
+                                    .then((value) => setState(() {}));
+                              },
                             )
                           ]
                         : [Text('No vacancy')])),
@@ -157,5 +182,36 @@ class RecruitmentsScreenState extends State<RecruitmentsScreen> {
       });
     });
     return dataRows;
+  }
+
+  PositionsVacant createVacancy(Job job) {
+    var current_date = DateTime.now();
+    var date_in_2_weeks = current_date.add(Duration(days: 14));
+
+    PositionsVacant positionsVacant = new PositionsVacant(
+      job_id: job.id ?? 0,
+      office_id: 0,
+      job: job,
+      amount: (job.hc_plan! - job.employees!.length),
+      start_date: DateFormat.yMd().format(current_date),
+      dt_start_date: current_date,
+      end_date: DateFormat.yMd().format(date_in_2_weeks),
+      dt_end_date: date_in_2_weeks,
+      notes: 'For immedaite hire',
+      //last_updated: DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())
+    );
+    job.positionsVacant!.add(positionsVacant);
+
+    return positionsVacant;
+  }
+
+  int getHiringCount(List<PositionsVacant> positionsVacant) {
+    int count = 0;
+
+    positionsVacant.forEach((vacancy) {
+      count += vacancy.amount!;
+    });
+
+    return count;
   }
 }

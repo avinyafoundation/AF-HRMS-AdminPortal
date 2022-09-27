@@ -9,3 +9,4 @@ export 'data/branch.dart';
 export 'data/office.dart';
 export 'data/team.dart';
 export 'data/job.dart';
+export 'data/positions_vacant.dart';

@@ -206,6 +206,10 @@ class HRSystem {
     this.jobBands = jobBands;
   }
 
+  void setPositionsVacants(List<PositionsVacant>? positionsVacant) {
+    // need to locate the relavant job and set this
+  }
+
   addOrganization({
     required String name,
     required String description,

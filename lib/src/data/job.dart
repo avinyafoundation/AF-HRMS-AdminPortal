@@ -14,6 +14,7 @@ class Job {
   JobBand? jobBand;
   int? hc_plan;
   List<Employee>? employees = [];
+  List<PositionsVacant>? positionsVacant = [];
 
   Job(
       {this.id,
@@ -24,8 +25,10 @@ class Job {
       this.job_band_id,
       this.jobBand,
       this.hc_plan,
-      List<Employee>? employees})
-      : this.employees = employees ?? [];
+      List<Employee>? employees,
+      List<PositionsVacant>? positionsVacant})
+      : this.employees = employees ?? [],
+        this.positionsVacant = positionsVacant ?? [];
 
   factory Job.fromJson(Map<String, dynamic> json) {
     return Job(
