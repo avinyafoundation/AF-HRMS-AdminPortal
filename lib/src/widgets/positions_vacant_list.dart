@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../data.dart';
 
 class PositionsVacantList extends StatefulWidget {
-  const PositionsVacantList({super.key, this.onTap});
+  final List<PositionsVacant> positionsVacantList;
+  const PositionsVacantList(
+      {super.key, this.onTap, required this.positionsVacantList});
   final ValueChanged<PositionsVacant>? onTap;
 
   @override
@@ -12,7 +14,7 @@ class PositionsVacantList extends StatefulWidget {
 }
 
 class PositionsVacantListState extends State<PositionsVacantList> {
-  late Future<List<PositionsVacant>> futurePositionsVacants;
+  //late Future<List<PositionsVacant>> futurePositionsVacants;
   final ValueChanged<PositionsVacant>? onTap;
 
   PositionsVacantListState(this.onTap);
@@ -20,78 +22,84 @@ class PositionsVacantListState extends State<PositionsVacantList> {
   @override
   void initState() {
     super.initState();
-    futurePositionsVacants = fetchPositionsVacants();
+    //futurePositionsVacants = fetchPositionsVacants();
   }
 
-  Future<List<PositionsVacant>> refreshPositionsVacantState() async {
-    futurePositionsVacants = fetchPositionsVacants();
-    return futurePositionsVacants;
-  }
+  // Future<List<PositionsVacant>> refreshPositionsVacantState() async {
+  //   futurePositionsVacants = fetchPositionsVacants();
+  //   return futurePositionsVacants;
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<PositionsVacant>>(
-      future: refreshPositionsVacantState(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          hrSystemInstance.setPositionsVacants(snapshot.data);
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) => ListTile(
-              title: Text(
-                snapshot.data![index].job!.name!,
-              ),
-              subtitle: Text(
-                ' ' +
-                    snapshot.data![index].office_id!.toString() +
-                    ' ' +
-                    snapshot.data![index].job_id!.toString() +
-                    ' ' +
-                    snapshot.data![index].amount!.toString() +
-                    ' ' +
-                    snapshot.data![index].start_date! +
-                    ' ' +
-                    snapshot.data![index].end_date! +
-                    ' ' +
-                    snapshot.data![index].last_updated! +
-                    ' ' +
-                    snapshot.data![index].notes! +
-                    ' ',
-              ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                      onPressed: () async {
-                        Navigator.of(context)
-                            .push<void>(
-                              MaterialPageRoute<void>(
-                                builder: (context) => EditPositionsVacantPage(
-                                    positionsVacant: snapshot.data![index]),
-                              ),
-                            )
-                            .then((value) => setState(() {}));
-                      },
-                      icon: const Icon(Icons.edit)),
-                  IconButton(
-                      onPressed: () async {
-                        await _deletePositionsVacant(snapshot.data![index]);
-                        setState(() {});
-                      },
-                      icon: const Icon(Icons.delete)),
-                ],
-              ),
-              onTap: onTap != null ? () => onTap!(snapshot.data![index]) : null,
+    // return FutureBuilder<List<PositionsVacant>>(
+    //   future: refreshPositionsVacantState(),
+    //   builder: (context, snapshot) {
+    //     if (snapshot.hasData) {
+    //       hrSystemInstance.setPositionsVacants(snapshot.data);
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Positions Vacant'),
+        ),
+        body: ListView.builder(
+          itemCount: widget.positionsVacantList.length,
+          itemBuilder: (context, index) => ListTile(
+            title: Text(
+              widget.positionsVacantList[index].job!.name!,
             ),
-          );
-        } else if (snapshot.hasError) {
-          return Text('${snapshot.error}');
-        }
+            subtitle: Text(
+              ' ' +
+                  widget.positionsVacantList[index].office_id!.toString() +
+                  ' ' +
+                  widget.positionsVacantList[index].job_id!.toString() +
+                  ' ' +
+                  widget.positionsVacantList[index].amount!.toString() +
+                  ' ' +
+                  widget.positionsVacantList[index].start_date! +
+                  ' ' +
+                  widget.positionsVacantList[index].end_date! +
+                  ' ' +
+                  (widget.positionsVacantList[index].last_updated ?? '') +
+                  ' ' +
+                  widget.positionsVacantList[index].notes! +
+                  ' ',
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                    onPressed: () async {
+                      Navigator.of(context)
+                          .push<void>(
+                            MaterialPageRoute<void>(
+                              builder: (context) => EditPositionsVacantPage(
+                                  positionsVacant:
+                                      widget.positionsVacantList[index]),
+                            ),
+                          )
+                          .then((value) => setState(() {}));
+                    },
+                    icon: const Icon(Icons.edit)),
+                IconButton(
+                    onPressed: () async {
+                      await _deletePositionsVacant(
+                          widget.positionsVacantList[index]);
+                      setState(() {});
+                    },
+                    icon: const Icon(Icons.delete)),
+              ],
+            ),
+            onTap: onTap != null
+                ? () => onTap!(widget.positionsVacantList[index])
+                : null,
+          ),
+        ));
+    // } else if (snapshot.hasError) {
+    //   return Text('${snapshot.error}');
+    // }
 
-        // By default, show a loading spinner.
-        return const CircularProgressIndicator();
-      },
-    );
+    // By default, show a loading spinner.
+    //return const CircularProgressIndicator();
   }
 
   Future<void> _deletePositionsVacant(PositionsVacant positionsVacant) async {
@@ -302,7 +310,7 @@ class _AddPositionsVacantPageState extends State<AddPositionsVacantPage> {
 }
 
 class EditPositionsVacantPage extends StatefulWidget {
-  static const String route = 'positions_vacant/edit';
+  //static const String route = 'positions_vacant/edit';
   final PositionsVacant positionsVacant;
   const EditPositionsVacantPage({super.key, required this.positionsVacant});
   @override
@@ -376,7 +384,7 @@ class _EditPositionsVacantPageState extends State<EditPositionsVacantPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('PositionsVacant'),
+        title: const Text('Positions Vacant'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),

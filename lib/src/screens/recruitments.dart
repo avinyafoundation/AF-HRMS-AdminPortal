@@ -97,7 +97,7 @@ class RecruitmentsScreenState extends State<RecruitmentsScreen> {
                                         fontWeight: FontWeight.w400)),
                               ),
                               DataColumn(
-                                label: Text('Hiring HC',
+                                label: Text('Hiring',
                                     style: TextStyle(
                                         fontStyle: FontStyle.italic,
                                         fontWeight: FontWeight.w400)),
@@ -149,7 +149,28 @@ class RecruitmentsScreenState extends State<RecruitmentsScreen> {
                   fontStyle: FontStyle.italic, fontWeight: FontWeight.w400))),
           DataCell(Text(job.hc_plan.toString())),
           DataCell(Text((job.hc_plan! - job.employees!.length).toString())),
-          DataCell(Text(getHiringCount(job.positionsVacant!).toString())),
+          DataCell(Container(
+            child: Row(
+              children: getHiringCount(job.positionsVacant!) > 0
+                  ? [
+                      TextButton(
+                        child: Text('View Vacancies'),
+                        onPressed: () {
+                          Navigator.of(context)
+                              .push<void>(
+                                MaterialPageRoute<void>(
+                                  builder: (context) => PositionsVacantList(
+                                      positionsVacantList:
+                                          job.positionsVacant!),
+                                ),
+                              )
+                              .then((value) => setState(() {}));
+                        },
+                      )
+                    ]
+                  : [Text('None')],
+            ),
+          )),
           DataCell(
             Container(
                 child: Row(
