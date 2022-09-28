@@ -219,6 +219,7 @@ class RecruitmentsScreenState extends State<RecruitmentsScreen> {
       end_date: DateFormat.yMd().format(date_in_2_weeks),
       dt_end_date: date_in_2_weeks,
       notes: 'For immedaite hire',
+      status: 'Open',
       //last_updated: DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())
     );
     job.positionsVacant!.add(positionsVacant);

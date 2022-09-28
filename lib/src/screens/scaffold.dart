@@ -126,7 +126,7 @@ class SMSScaffold extends StatelessWidget {
               showAboutDialog(
                   context: context,
                   applicationName: 'AF HRMS Admin Portal',
-                  applicationVersion: '0.1.0');
+                  applicationVersion: '0.2.0');
             }),
         new Text("© 2022, Avinya Foundation."),
       ],

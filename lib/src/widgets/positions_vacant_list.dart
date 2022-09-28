@@ -47,22 +47,35 @@ class PositionsVacantListState extends State<PositionsVacantList> {
             title: Text(
               widget.positionsVacantList[index].job!.name!,
             ),
-            subtitle: Text(
-              ' ' +
-                  widget.positionsVacantList[index].office_id!.toString() +
-                  ' ' +
-                  widget.positionsVacantList[index].job_id!.toString() +
-                  ' ' +
-                  widget.positionsVacantList[index].amount!.toString() +
-                  ' ' +
-                  widget.positionsVacantList[index].start_date! +
-                  ' ' +
-                  widget.positionsVacantList[index].end_date! +
-                  ' ' +
-                  (widget.positionsVacantList[index].last_updated ?? '') +
-                  ' ' +
-                  widget.positionsVacantList[index].notes! +
-                  ' ',
+            subtitle: Column(
+              children: [
+                Row(
+                  children: [
+                    Text('Count: ' +
+                        widget.positionsVacantList[index].amount!.toString())
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text('Start Date: ' +
+                        widget.positionsVacantList[index].start_date!)
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text('End Date: ' +
+                        widget.positionsVacantList[index].end_date!)
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text('Status: ' + widget.positionsVacantList[index].status!)
+                  ],
+                ),
+                Row(
+                  children: [Text(widget.positionsVacantList[index].notes!)],
+                ),
+              ],
             ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,

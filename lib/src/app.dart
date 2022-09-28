@@ -63,7 +63,6 @@ class _SchoolManagementSystemState extends State<SchoolManagementSystem> {
         '/teams',
         '/interviews',
         '/#access_token',
-        '/positions_vacant/edit',
       ],
       guard: _guard,
       initialRoute: '/signin',

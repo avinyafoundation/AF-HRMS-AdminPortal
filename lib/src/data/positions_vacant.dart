@@ -16,6 +16,8 @@ class PositionsVacant {
   DateTime? dt_end_date;
   String? last_updated;
   String? notes;
+  String?
+      status; // {'Open', 'Advertised', 'Sourcing', 'Screening', 'Interviwing', 'Selecting', 'Offers sent', 'Onboarding', 'Completed', 'Cancelled'}
 
   PositionsVacant({
     this.id,
@@ -29,6 +31,7 @@ class PositionsVacant {
     this.dt_end_date,
     this.last_updated,
     this.notes,
+    this.status,
   });
 
   factory PositionsVacant.fromJson(Map<String, dynamic> json) {
