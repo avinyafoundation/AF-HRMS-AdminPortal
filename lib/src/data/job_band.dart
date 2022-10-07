@@ -49,7 +49,7 @@ Future<List<JobBand>> fetchJobBands() async {
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'accept': 'application/json',
-      'API-Key': AppConfig.hrmApiKey,
+      'Authorization': 'Bearer ' + AppConfig.getHRMApiKey(),
     },
   );
 
@@ -70,7 +70,7 @@ Future<JobBand> fetchJobBand(String id) async {
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'accept': 'application/json',
-      'API-Key': AppConfig.hrmApiKey,
+      'Authorization': 'Bearer ' + AppConfig.getHRMApiKey(),
     },
   );
 
@@ -89,7 +89,7 @@ Future<http.Response> createJobBand(JobBand jobBand) async {
     Uri.parse(AppConfig.hrmApiUrl + '/sms/hrm/job_bands'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
-      'API-Key': AppConfig.hrmApiKey,
+      'Authorization': 'Bearer ' + AppConfig.getHRMApiKey(),
     },
     body: jsonEncode(jobBand.toJson()),
   );
@@ -105,7 +105,7 @@ Future<http.Response> updateJobBand(JobBand jobBand) async {
     Uri.parse(AppConfig.hrmApiUrl + '/sms/hrm/job_bands'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
-      'API-Key': AppConfig.hrmApiKey,
+      'Authorization': 'Bearer ' + AppConfig.getHRMApiKey(),
     },
     body: jsonEncode(jobBand.toJson()),
   );
@@ -121,7 +121,7 @@ Future<http.Response> deleteJobBand(String id) async {
     Uri.parse(AppConfig.hrmApiUrl + '/sms/hrm/job_bands/$id'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
-      'API-Key': AppConfig.hrmApiKey,
+      'Authorization': 'Bearer ' + AppConfig.getHRMApiKey(),
     },
   );
 

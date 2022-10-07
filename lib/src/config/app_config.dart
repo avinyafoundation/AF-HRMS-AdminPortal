@@ -27,7 +27,7 @@ class AppConfig {
     // decode our json
     final json = jsonDecode(contents);
     hrmApiUrl = json['hrm_api_url'];
-    hrmApiKey = json['hrm_api_key'];
+    //hrmApiKey = json['hrm_api_key'];
 
     // convert our JSON into an instance of our AppConfig class
     return AppConfig();
@@ -35,5 +35,9 @@ class AppConfig {
 
   String getApiUrl() {
     return hrmApiUrl;
+  }
+
+  static String getHRMApiKey() {
+    return apiTokens['access_token'];
   }
 }
