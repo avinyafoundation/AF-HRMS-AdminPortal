@@ -5,6 +5,11 @@ import 'package:flutter/services.dart';
 class AppConfig {
   static String hrmApiUrl = 'http://localhost:8080';
   static String hrmApiKey = '';
+  static String choreoSTSEndpoint = "https://sts.choreo.dev/oauth2/token";
+  static String choreoSTSClientID = "Mhss_8Q4iuJ83Tt2Mtazju8MltYa";
+  static var apiTokens = null;
+  static String applicationName = 'AF HRMS Admin Portal';
+  static String applicationVersion = '0.3.0';
 
   //AppConfig({required this.apiUrl});
 

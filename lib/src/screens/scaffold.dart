@@ -4,18 +4,19 @@ import 'package:flutter/material.dart';
 import '../routing.dart';
 import '../auth.dart';
 import 'scaffold_body.dart';
+import '../config/app_config.dart';
 
 class SMSScaffold extends StatelessWidget {
   static const pageNames = [
     '/hrm_people/teams',
     '/interviews',
     '/books/popular',
-    '/authors',
+    // '/authors',
     // '/address_types/popular',
     // '/organizations/popular',
     // '/branches/popular',
     // '/offices/popular',
-    // '/job_bands/popular',
+    '/job_bands/popular',
   ];
 
   const SMSScaffold({
@@ -85,10 +86,10 @@ class SMSScaffold extends StatelessWidget {
             title: 'Books',
             icon: Icons.book,
           ),
-          AdaptiveScaffoldDestination(
-            title: 'Authors',
-            icon: Icons.person,
-          ),
+          // AdaptiveScaffoldDestination(
+          //   title: 'Authors',
+          //   icon: Icons.person,
+          // ),
           // AdaptiveScaffoldDestination(
           //   title: 'Settings',
           //   icon: Icons.settings,
@@ -113,10 +114,10 @@ class SMSScaffold extends StatelessWidget {
           //   title: 'Offices',
           //   icon: Icons.account_tree,
           // ),
-          // AdaptiveScaffoldDestination(
-          //   title: 'Job Bands',
-          //   icon: Icons.groups,
-          // ),
+          AdaptiveScaffoldDestination(
+            title: 'Job Bands',
+            icon: Icons.groups,
+          ),
         ],
       ),
       persistentFooterButtons: [
@@ -125,8 +126,8 @@ class SMSScaffold extends StatelessWidget {
             onPressed: () {
               showAboutDialog(
                   context: context,
-                  applicationName: 'AF HRMS Admin Portal',
-                  applicationVersion: '0.2.0');
+                  applicationName: AppConfig.applicationName,
+                  applicationVersion: AppConfig.applicationVersion);
             }),
         new Text("© 2022, Avinya Foundation."),
       ],

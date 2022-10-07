@@ -10,3 +10,8 @@ export 'data/office.dart';
 export 'data/team.dart';
 export 'data/job.dart';
 export 'data/positions_vacant.dart';
+export 'data/applicant.dart';
+export 'data/application_status.dart';
+export 'data/applicant_application_status.dart';
+export 'data/applicant_interview.dart';
+export 'data/job_offer.dart';

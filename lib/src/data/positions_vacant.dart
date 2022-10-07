@@ -1,3 +1,4 @@
+import 'package:ShoolManagementSystem/src/data/applicant.dart';
 import 'package:ShoolManagementSystem/src/data/job.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -18,6 +19,7 @@ class PositionsVacant {
   String? notes;
   String?
       status; // {'Open', 'Advertised', 'Sourcing', 'Screening', 'Interviwing', 'Selecting', 'Offers sent', 'Onboarding', 'Completed', 'Cancelled'}
+  List<Applicant>? applicants = [];
 
   PositionsVacant({
     this.id,
@@ -32,7 +34,8 @@ class PositionsVacant {
     this.last_updated,
     this.notes,
     this.status,
-  });
+    List<Applicant>? applicants,
+  }) : this.applicants = applicants ?? [];
 
   factory PositionsVacant.fromJson(Map<String, dynamic> json) {
     return PositionsVacant(

@@ -111,7 +111,7 @@ class _SchoolManagementSystemState extends State<SchoolManagementSystem> {
       );
 
   Future<ParsedRoute> _guard(ParsedRoute from) async {
-    final signedIn = _auth.getSignedIn();
+    final signedIn = await _auth.getSignedIn();
     final signInRoute = ParsedRoute('/signin', '/signin', {}, {});
 
     // Go to /signin if the user is not signed in
@@ -125,8 +125,9 @@ class _SchoolManagementSystemState extends State<SchoolManagementSystem> {
     return from;
   }
 
-  void _handleAuthStateChanged() {
-    if (!_auth.getSignedIn()) {
+  void _handleAuthStateChanged() async {
+    bool signedIn = await _auth.getSignedIn();
+    if (!signedIn) {
       _routeState.go('/signin');
     }
   }
