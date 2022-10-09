@@ -10,6 +10,8 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import './config/app_config.dart';
 
+import 'package:jwt_decoder/jwt_decoder.dart';
+
 /// A mock authentication service
 class SMSAuth extends ChangeNotifier {
   bool _signedIn = false;
@@ -24,8 +26,20 @@ class SMSAuth extends ChangeNotifier {
       if (_openid_tokens != null && _openid_tokens['access_token'] != null) {
         _signedIn = true;
         print('OpenID tokens ##################');
-        _openid_tokens
+        // _openid_tokens
+        //     .forEach((key, value) => print("Key : $key, Value : $value"));
+
+        bool isTokenExpired = JwtDecoder.isExpired(_openid_tokens["id_token"]);
+        if (isTokenExpired) {
+          _signedIn = false;
+          return _signedIn;
+        }
+
+        Map<String, dynamic> decodedToken =
+            JwtDecoder.decode(_openid_tokens["id_token"]);
+        decodedToken
             .forEach((key, value) => print("Key : $key, Value : $value"));
+        print(decodedToken["name"]);
 
         if (AppConfig.apiTokens != null) {
           //use refresh token
